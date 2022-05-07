@@ -355,12 +355,16 @@ class Tado:
             "termination": {"typeSkillBasedApp": overlayMode},
         }
 
+        # fanSpeed and swing are required for some devices and must be sent otherwise
+        # you can't set some modes such as DRY
+        if fanSpeed is not None:
+            post_data["setting"]["fanLevel"] = fanLevel
+
+        if swing is not None:
+            post_data["setting"]["swing"] = swing
+
         if setTemp is not None:
             post_data["setting"]["temperature"] = {"celsius": setTemp}
-            if fanLevel is not None:
-                post_data["setting"]["fanLevel"] = fanLevel
-            if swing is not None:
-                post_data["setting"]["swing"] = swing
 
         if mode is not None:
             post_data["setting"]["mode"] = mode
@@ -369,6 +373,9 @@ class Tado:
             post_data["termination"]["durationInSeconds"] = duration
 
         data = self._apiCall(cmd, "PUT", post_data)
+
+        # DEBUG purpose
+        _LOGGER.error(data)
         return data
         
     def getZoneOverlayDefault(self, zone):
