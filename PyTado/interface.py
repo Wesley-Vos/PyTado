@@ -344,7 +344,7 @@ class Tado:
         data = self._apiCall(cmd, "DELETE", {}, True)
         return data
 
-    def setZoneOverlay(self, zone, overlayMode, setTemp=None, duration=None, deviceType='HEATING', power="ON", mode=None, fanSpeed=None, swing=None):
+    def setZoneOverlay(self, zone, overlayMode, setTemp=None, duration=None, deviceType='HEATING', power="ON", mode=None, fanLevel=None, swing=None):
         """set current overlay for a zone"""
         # pylint: disable=C0103
 
@@ -357,8 +357,8 @@ class Tado:
 
         if setTemp is not None:
             post_data["setting"]["temperature"] = {"celsius": setTemp}
-            if fanSpeed is not None:
-                post_data["setting"]["fanSpeed"] = fanSpeed
+            if fanLevel is not None:
+                post_data["setting"]["fanLevel"] = fanLevel
             if swing is not None:
                 post_data["setting"]["swing"] = swing
 
