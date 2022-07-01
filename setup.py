@@ -18,7 +18,7 @@ if sys.argv[-1] == 'publish':
 readme = open(here('README.md')).read()
 
 setup(name='jorgenvatle-python-tado',
-      version='0.13.4',
+      version='0.13.5',
       description='PyTado from chrism0dwk, modfied by w.malgadey, diplix, michaelarnauts, LenhartStephan, splifter, syssi, andersonshatch, Yippy, p0thi',
       long_description=readme,
       keywords='tado',
