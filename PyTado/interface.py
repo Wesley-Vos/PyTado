@@ -344,7 +344,7 @@ class Tado:
         data = self._apiCall(cmd, "DELETE", {}, True)
         return data
 
-    def setZoneOverlay(self, zone, overlayMode, setTemp=None, duration=None, deviceType='HEATING', power="ON", mode=None, fanLevel=None, swing=None, verticalSwing=None, horizontalSwing=None light=None):
+    def setZoneOverlay(self, zone, overlayMode, setTemp=None, duration=None, deviceType='HEATING', power="ON", mode=None, fanLevel=None, swing=None, verticalSwing=None, horizontalSwing=None, light=None):
         """set current overlay for a zone"""
         # pylint: disable=C0103
 
