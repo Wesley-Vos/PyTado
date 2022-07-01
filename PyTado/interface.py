@@ -357,9 +357,12 @@ class Tado:
 
         # fanLevel and swing are required for some devices and must be sent otherwise
         # you can't set some modes such as DRY
+        # Todo: Check if fanSpeed is still necessary
         if fanLevel is not None:
             post_data["setting"]["fanLevel"] = fanLevel
 
+        # Todo: Add verticalSwing
+        # Todo: Add horizontalSwing
         if swing is not None:
             post_data["setting"]["swing"] = swing
 
