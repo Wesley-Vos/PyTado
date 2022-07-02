@@ -37,6 +37,8 @@ class TadoZone:
         self._current_fan_speed = None
         self._current_hvac_mode = None
         self._current_swing_mode = None
+        self._current_vertical_swing_mode = None
+        self._current_horizontal_swing_mode = None
         self._target_temp = None
         self._available = False
         self._power = None
@@ -190,6 +192,16 @@ class TadoZone:
         return self._current_swing_mode
 
     @property
+    def current_vertical_swing_mode(self):
+        """TADO VERTICAL SWING Mode (tado const)."""
+        return self._current_vertical_swing_mode
+
+    @property
+    def current_horizontal_swing_mode(self):
+        """TADO HORIZONTAL SWING Mode (tado const)."""
+        return self._current_horizontal_swing_mode
+
+    @property
     def target_temp(self):
         """Target temperature (C)."""
         return self._target_temp
@@ -266,6 +278,12 @@ class TadoZone:
 
             if "swing" in setting:
                 self._current_swing_mode = setting["swing"]
+
+            if "verticalSwing" in setting:
+                self._current_vertical_swing_mode = setting["verticalSwing"]
+
+            if "horizontalSwing" in setting:
+                self._current_horizontal_swing_mode = setting["horizontalSwing"]
 
             self._power = setting["power"]
             if self._power == "ON":
