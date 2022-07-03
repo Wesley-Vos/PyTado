@@ -39,6 +39,7 @@ class TadoZone:
         self._current_swing_mode = None
         self._current_vertical_swing_mode = None
         self._current_horizontal_swing_mode = None
+        self._current_light_mode = None
         self._target_temp = None
         self._available = False
         self._power = None
@@ -200,6 +201,11 @@ class TadoZone:
     def current_horizontal_swing_mode(self):
         """TADO HORIZONTAL SWING Mode (tado const)."""
         return self._current_horizontal_swing_mode
+
+    @property
+    def current_light_mode(self):
+        """TADO LIGHT Mode (tado const)."""
+        return self._current_light_mode
 
     @property
     def target_temp(self):
