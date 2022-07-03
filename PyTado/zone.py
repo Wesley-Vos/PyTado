@@ -291,6 +291,9 @@ class TadoZone:
             if "horizontalSwing" in setting:
                 self._current_horizontal_swing_mode = setting["horizontalSwing"]
 
+            if "light" in setting:
+                self._current_light_mode = setting["light"]
+
             self._power = setting["power"]
             if self._power == "ON":
                 self._current_hvac_action = CONST_HVAC_IDLE
