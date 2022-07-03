@@ -34,6 +34,7 @@ class TadoZone:
         self._current_humidity_timestamp = None
         self._is_away = False
         self._current_hvac_action = None
+        # Todo: Determine if it would be best to refactor to _current_fan_level
         self._current_fan_speed = None
         self._current_hvac_mode = None
         self._current_swing_mode = None
@@ -306,9 +307,9 @@ class TadoZone:
                     self._current_hvac_mode = TADO_HVAC_ACTION_TO_MODES[setting["type"]]
 
             # Not all devices have fans
-            if "fanSpeed" in setting:
+            if "fanLevel" in setting:
                 self._current_fan_speed = setting.get(
-                    "fanSpeed", CONST_FAN_AUTO if self._power == "ON" else CONST_FAN_OFF
+                    "fanLevel", CONST_FAN_AUTO if self._power == "ON" else CONST_FAN_OFF
                 )
             elif "type" in setting and setting["type"] == TYPE_AIR_CONDITIONING:
                 self._current_fan_speed = (
