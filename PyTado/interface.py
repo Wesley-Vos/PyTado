@@ -356,71 +356,71 @@ class Tado:
             "termination": {"typeSkillBasedApp": overlayMode},
         }
 
-        # Check if zone exists and if it requires V2/V3 ac set of commands
-        capabilities = self.getCapabilities(zone=zone)
+        if power == "ON" and mode:
+            # Check if zone exists and if it requires V2/V3 ac set of commands
+            capabilities = self.getCapabilities(zone=zone)
+            
+            if not capabilities:
+                raise Exception('Could\'t fetch zone details')
 
-        if not capabilities:
-            raise Exception('Could\'t fetch zone details')
+            if mode not in capabilities:
+                raise Exception('Unsupported mode for this zone')
 
-        if mode not in capabilities:
-            raise Exception('Unsupported mode for this zone')
+            mode_capabilities = capabilities[mode]
 
-        mode_capabilities = capabilities[mode]
+            # FanSpeed / FanLevel
+            if 'fanSpeeds' in mode_capabilities:
 
-        # FanSpeed / FanLevel
-        if 'fanSpeeds' in mode_capabilities:
+                # If fanLevel hasn't been provided, the one provided by Tado will be used
+                if fanLevel is None:
+                    fanLevel = 'AUTO'
 
-            # If fanLevel hasn't been provided, the one provided by Tado will be used
-            if fanLevel is None:
-                fanLevel = 'AUTO'
+                post_data["setting"]["fanSpeed"] = fanLevel
 
-            post_data["setting"]["fanSpeed"] = fanLevel
+                # TODO is Swing is only allowed in fanSpeed?
+                if mode == 'FAN':
+                    if swing is None:
+                        swing = "ON"
 
-            # TODO is Swing is only allowed in fanSpeed?
-            if mode == 'FAN':
-                if swing is None:
-                    swing = "ON"
+                    post_data["setting"]["swing"] = swing
 
-                post_data["setting"]["swing"] = swing
+            elif 'fanLevel' in mode_capabilities:
+                # If fanLevel hasn't been provided, the one provided by Tado will be used
+                if fanLevel is None:
+                    fanLevel = 'AUTO'
 
-        elif 'fanLevel' in mode_capabilities:
-            # If fanLevel hasn't been provided, the one provided by Tado will be used
-            if fanLevel is None:
-                fanLevel = 'AUTO'
+                post_data["setting"]["fanLevel"] = fanLevel
 
-            post_data["setting"]["fanLevel"] = fanLevel
+            # Vertical Swing
+            if 'verticalSwing' in mode_capabilities:
+                if verticalSwing is None:
+                    verticalSwing = 'ON'
 
-        # Vertical Swing
-        if 'verticalSwing' in mode_capabilities:
-            if verticalSwing is None:
-                verticalSwing = 'ON'
+                post_data["setting"]["verticalSwing"] = verticalSwing
 
-            post_data["setting"]["verticalSwing"] = verticalSwing
+            # Horizontal Swing
+            if 'horizontalSwing' in mode_capabilities:
+                if horizontalSwing is None:
+                    horizontalSwing = 'ON'
 
-        # Horizontal Swing
-        if 'horizontalSwing' in mode_capabilities:
-            if horizontalSwing is None:
-                horizontalSwing = 'ON'
+                post_data["setting"]["horizontalSwing"] = horizontalSwing
 
-            post_data["setting"]["horizontalSwing"] = horizontalSwing
+            # Light
+            if 'light' in mode_capabilities:
+                if light is None:
+                    light = 'OFF'
 
-        # Light
-        if 'light' in mode_capabilities:
-            if light is None:
-                light = 'OFF'
+                post_data["setting"]["light"] = light
 
-            post_data["setting"]["light"] = light
+            if setTemp is not None:
+                post_data["setting"]["temperature"] = {"celsius": setTemp}
 
-        if setTemp is not None:
-            post_data["setting"]["temperature"] = {"celsius": setTemp}
+            if mode is not None:
+                post_data["setting"]["mode"] = mode
 
-        if mode is not None:
-            post_data["setting"]["mode"] = mode
+            if duration is not None:
+                post_data["termination"]["durationInSeconds"] = duration
 
-        if duration is not None:
-            post_data["termination"]["durationInSeconds"] = duration
-
-        print(post_data)
         data = self._apiCall(cmd, "PUT", post_data)
 
         _LOGGER.error(data)
