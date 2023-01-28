@@ -423,7 +423,7 @@ class Tado:
 
         data = self._apiCall(cmd, "PUT", post_data)
 
-        _LOGGER.error(data)
+        # _LOGGER.error(data)
         return data
 
     def getZoneOverlayDefault(self, zone):
